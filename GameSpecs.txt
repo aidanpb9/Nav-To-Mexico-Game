@@ -1,0 +1,24 @@
+Story parts
+part1: go from bedroom to starting car (part1)
+part2 navigate the roads to airport
+part3(navigate the airport)
+part4(navigate the resort to find your parents)
+
+Part1:
+find computer password
+book tickets on computer
+find car keys
+
+                         entrance(front door)
+House layout:  bedroom   living room     kitchen   garage
+                         upstairs room->attic
+
+Game works up to unlocking bedroom door and packing suitcase.
+Next: car keys are in entrance.
+      computer password is in attic
+      computer is in upstairs room
+      put basic items to observe in all rooms
+
+      cant start car unless packed suitcase, has car keys, booked tickets
+
+
