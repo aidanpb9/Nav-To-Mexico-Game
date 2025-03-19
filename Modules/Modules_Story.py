@@ -27,10 +27,4 @@ class Story:
         clear()
 
 
-    @staticmethod
-    def bedroom_locked_text():
-        clear()
-        slow_print("Seems the bedroom door is locked.")
-        slow_print("I'll look around for a key...")
-        text_buffer()
-        clear()
+

@@ -14,11 +14,17 @@ House layout:  bedroom   living room     kitchen   garage
                          upstairs room->attic
 
 Game works up to unlocking bedroom door and packing suitcase.
-Next: car keys are in entrance.
+
+Next: save game state
       computer password is in attic
       computer is in upstairs room
       put basic items to observe in all rooms
 
       cant start car unless packed suitcase, has car keys, booked tickets
 
-
+Since last commit:
+    made examine_room function dynamic for scalability 
+    added living_room items to examine
+    moved locked_bedroom text from Story to Room Class
+    added text to show unlocking bedroom door for first time
+    added entrance_room items and has_car_keys story sequence

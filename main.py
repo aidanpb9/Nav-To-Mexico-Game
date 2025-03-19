@@ -8,7 +8,9 @@ def main():
     story_sequence = {
         "examined_bedroom": False,
         "has_bedroom_key": False,
-        "packed_bag": False
+        "unlocked_bedroom": False,
+        "packed_bag": False,
+        "has_car_keys": False
     }
 
     #start in bedroom

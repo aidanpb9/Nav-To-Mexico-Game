@@ -35,30 +35,24 @@ class Rooms:
     def leave_room(self, current_room) -> str:
         clear()
         if self.story_sequence["has_bedroom_key"]:
+            if not self.story_sequence["unlocked_bedroom"]:
+                slow_print("You used the bedroom key to unlock the door!")
+                self.story_sequence["unlocked_bedroom"] = True
             adjacent_rooms = self.get_adj_rooms(current_room)
             room_select = input(f"What room? {adjacent_rooms}").strip()
             current_room = room_select
         else:
-            Story.bedroom_locked_text()
+            clear()
+            slow_print("Seems the bedroom door is locked.")
+            slow_print("I'll look around for a key...")
+            text_buffer()
         return current_room
 
 
     def examine_room(self, current_room):
-        if current_room == "bedroom":
-            self.examine_bedroom()
-        elif current_room == "living_room":
-            self.examine_living_room()
-        elif current_room == "kitchen":
-            self.examine_kitchen()
-        elif current_room == "garage":
-            self.examine_garage()
-        elif current_room == "entrance_room":
-            self.examine_entrance_room()
-        elif current_room == "upstairs_room":
-            self.examine_upstairs_room()
-        elif current_room == "attic":
-            self.examine_attic()
-
+        examine_room = f"examine_{current_room}"
+        call_examine = getattr(self, examine_room)
+        call_examine()
 
     def examine_bedroom(self):
         clear()
@@ -88,7 +82,7 @@ class Rooms:
                         return self.examine_bedroom()
                     else:
                         slow_print("You did not pack your suitcase.")
-                    text_buffer()
+                        text_buffer()   #check this change
 
                 elif user_action == 3:
                     self.examine_bedroom_dresser()
@@ -98,7 +92,6 @@ class Rooms:
                 clear()
                 slow_print("What would you like to examine?")
                 user_action = int(input("1-window\t2-suitcase\t 3-dresser\t4-stop examining\n"))
-            clear()
 
         else:
             slow_print("There is a window and a dresser.")
@@ -142,8 +135,26 @@ class Rooms:
     @staticmethod
     def examine_living_room():
         clear()
-        slow_print("Examining living room")
-        text_buffer()
+        slow_print("There is a couch and a tv in the living room.")
+        slow_print("What would you like to examine?")
+        user_action = int(input("1-couch\t2-tv\t3-stop examining\n"))
+
+        while user_action != 3:
+            if user_action == 1:
+                clear()
+                slow_print("The couch is quite comfortable.")
+                text_buffer()
+            elif user_action == 2:
+                clear()
+                slow_print("The tv isn't working right now.")
+                text_buffer()
+            elif user_action == 3:
+                break
+            clear()
+            slow_print("What would you like to examine?")
+            user_action = int(input("1-couch     2-tv     3-stop examining\n"))
+
+
 
     @staticmethod
     def examine_kitchen():
@@ -157,11 +168,26 @@ class Rooms:
         slow_print("Examining garage")
         text_buffer()
 
-    @staticmethod
-    def examine_entrance_room():
-        clear()
-        slow_print("Examining entrance room")
-        text_buffer()
+
+    def examine_entrance_room(self):
+        if self.story_sequence["has_car_keys"]:
+            clear()
+            slow_print("The hall is well decorated.")
+            text_buffer()
+        else:
+            clear()
+            slow_print("There is a table with some keys on it.")
+            take_keys_input = input("Will you take the keys? y/n ")
+
+            if take_keys_input == 'y':
+                clear()
+                self.story_sequence["has_car_keys"] = True
+                slow_print("Acquired car keys.")
+                text_buffer()
+            else:
+                clear()
+                slow_print("You did not take the keys")
+                text_buffer()
 
     @staticmethod
     def examine_upstairs_room():
