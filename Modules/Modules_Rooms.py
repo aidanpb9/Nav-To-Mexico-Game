@@ -5,21 +5,21 @@ from Modules.Modules_Story import Story
 class Rooms:
 
     def __init__(self, story_sequence):
-        self.current_room = "bedroom"
         self.story_sequence = story_sequence
+
 
     @staticmethod
     def action_options() -> int:
-        user_action = int(input("1-leave room\t2-examine room\t3-map\n"))
+        user_action = int(input("1-leave room     2-examine room     3-map     4-save game\n"))
         return user_action
 
-    @staticmethod
-    def get_current_room(current_room):
-        clear()
-        slow_print(f"You are in the {current_room}.")
 
-    @staticmethod
-    def get_adj_rooms(current_room):
+    def get_current_room(self):
+        clear()
+        slow_print(f"You are in the {self.story_sequence["current_room"]}.")
+
+
+    def get_adj_rooms(self):
         adjacent_rooms = {
             "bedroom": ["living_room"],
             "living_room": ["bedroom", "kitchen", "entrance_room", "upstairs_room"],
@@ -29,30 +29,33 @@ class Rooms:
             "attic": ["upstairs_room"],
             "entrance_room": ["living_room"]
         }
-        return adjacent_rooms.get(current_room, [])
+        return adjacent_rooms.get(self.story_sequence["current_room"], [])
 
 
-    def leave_room(self, current_room) -> str:
-        clear()
+    def leave_room(self) -> str:
         if self.story_sequence["has_bedroom_key"]:
             if not self.story_sequence["unlocked_bedroom"]:
+                clear()
                 slow_print("You used the bedroom key to unlock the door!")
+                text_buffer()
                 self.story_sequence["unlocked_bedroom"] = True
-            adjacent_rooms = self.get_adj_rooms(current_room)
+            adjacent_rooms = self.get_adj_rooms()
+            clear()
             room_select = input(f"What room? {adjacent_rooms}").strip()
-            current_room = room_select
+            self.story_sequence["current_room"] = room_select
         else:
             clear()
             slow_print("Seems the bedroom door is locked.")
             slow_print("I'll look around for a key...")
             text_buffer()
-        return current_room
+        return self.story_sequence["current_room"]
 
 
-    def examine_room(self, current_room):
-        examine_room = f"examine_{current_room}"
+    def examine_room(self):
+        examine_room = f"examine_{self.story_sequence["current_room"]}"
         call_examine = getattr(self, examine_room)
         call_examine()
+
 
     def examine_bedroom(self):
         clear()
@@ -62,6 +65,7 @@ class Rooms:
             self.story_sequence["examined_bedroom"] = True
 
         if not self.story_sequence["packed_bag"]:
+            clear()
             slow_print("There is a window, a suitcase, and a dresser.")
             slow_print("What would you like to examine?")
             user_action = int(input("1-window\t2-suitcase\t 3-dresser\t4-stop examining\n"))
@@ -69,18 +73,20 @@ class Rooms:
             while user_action !=4:
                 if user_action == 1:
                     clear()
-                    slow_print("Seems like a nice day outside, I should pack my suitcase!")
+                    slow_print("A nice day outside, I should pack my suitcase for Mexico!")
                     text_buffer()
 
                 elif user_action == 2:
                     clear()
                     pack_case_input = input("Will you pack your suitcase? y/n ")
                     if pack_case_input == 'y':
+                        clear()
                         slow_print("Suitcase all packed!")
                         text_buffer()
                         self.story_sequence["packed_bag"] = True
                         return self.examine_bedroom()
                     else:
+                        clear()
                         slow_print("You did not pack your suitcase.")
                         text_buffer()   #check this change
 
@@ -94,6 +100,7 @@ class Rooms:
                 user_action = int(input("1-window\t2-suitcase\t 3-dresser\t4-stop examining\n"))
 
         else:
+            clear()
             slow_print("There is a window and a dresser.")
             slow_print("What would you like to examine?")
             user_action = int(input("1-window\t 2-dresser\t3-stop examining\n"))
@@ -124,10 +131,12 @@ class Rooms:
             takes_key = input("Will you take it? y/n ")
 
             if takes_key == 'y':
+                clear()
                 self.story_sequence["has_bedroom_key"] = True
                 slow_print("Acquired the bedroom key.")
                 text_buffer()
             else:
+                clear()
                 slow_print("You did not grab the key.")
                 text_buffer()
 
@@ -137,7 +146,7 @@ class Rooms:
         clear()
         slow_print("There is a couch and a tv in the living room.")
         slow_print("What would you like to examine?")
-        user_action = int(input("1-couch\t2-tv\t3-stop examining\n"))
+        user_action = int(input("1-couch     2-tv     3-stop examining\n"))
 
         while user_action != 3:
             if user_action == 1:

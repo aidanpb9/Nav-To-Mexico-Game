@@ -3,6 +3,7 @@ import sys
 import time
 import json
 
+
 #checks if terminal is real or pycharm
 def in_ide():
     return 'PYCHARM_HOSTED' in os.environ
@@ -30,11 +31,22 @@ def slow_print(text, delay=0.01, end="\n"):
 def text_buffer():
     input(">")
 
+
 #to save the game
-def save_game(self):
-    with open("saved_game.json", 'w') as file:
-        json.dump(self.story_sequence, file)
-    print("Game Saved!")
+def save_game(story_sequence: dict, filename="saved_game.json") -> None:
+
+    with open(filename, 'w') as file:
+        # noinspection PyTypeChecker
+        json.dump(story_sequence, file)
+    clear()
+    slow_print("Game Saved!")
+
 
 #to load an existing game
-def load_game(self):
+def load_game(filename = "saved_game.json") -> dict:
+    try:
+        with open (filename, 'r') as file:
+            story_sequence = json.load(file)
+        return story_sequence
+    except FileNotFoundError:
+        return {}

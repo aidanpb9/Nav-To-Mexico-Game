@@ -10,9 +10,8 @@ class Story:
         slow_print("You wake up to your phone playing a voicemail.")
         slow_print(f"It is your mother's voice: \"Don't be late!\"")
         slow_print("What is she talking about?")
-        slow_print("Press enter to continue", end="")
+        slow_print("Press enter to continue")
         text_buffer()
-        clear()
 
 
     @staticmethod
@@ -24,7 +23,6 @@ class Story:
         text_buffer()
         slow_print("GOALS: pack bag, book ticket, get in the car")
         text_buffer()
-        clear()
 
 
 
