@@ -25,7 +25,7 @@ class Rooms:
             "living_room": ["bedroom", "kitchen", "entrance_room", "upstairs_room"],
             "kitchen": ["living_room", "garage"],
             "garage": ["kitchen"],
-            "upstairs_room": ["living_room", "attic"],
+            "upstairs_room": ["living_room"],
             "attic": ["upstairs_room"],
             "entrance_room": ["living_room"]
         }
@@ -45,8 +45,8 @@ class Rooms:
             self.story_sequence["current_room"] = room_select
         else:
             clear()
-            slow_print("Seems the bedroom door is locked.")
-            slow_print("I'll look around for a key...")
+            slow_print("\"Seems the bedroom door is locked.")
+            slow_print("I'll look around for a key...\"")
             text_buffer()
         return self.story_sequence["current_room"]
 
@@ -168,8 +168,20 @@ class Rooms:
     @staticmethod
     def examine_kitchen():
         clear()
-        slow_print("Examining kitchen")
-        text_buffer()
+        slow_print("The kitchen is well lit and has a large fridge.")
+        slow_print("What would you like to examine?")
+        user_action = int(input("1-fridge     2-stop examining\n"))
+
+        while user_action != 2:
+            if user_action == 1:
+                clear()
+                slow_print("The fridge is packed! But I'm not hungry now.")
+                text_buffer()
+            elif user_action == 2:
+                break
+            clear()
+            slow_print("What would you like to examine?")
+            user_action = int(input("1-fridge     2-stop examining\n"))
 
     @staticmethod
     def examine_garage():
@@ -198,17 +210,61 @@ class Rooms:
                 slow_print("You did not take the keys")
                 text_buffer()
 
-    @staticmethod
-    def examine_upstairs_room():
-        clear()
-        slow_print("Examining upstairs room")
-        text_buffer()
 
-    @staticmethod
-    def examine_attic():
+    def examine_upstairs_room(self):
+        if not self.story_sequence["access_pc_once"]:
+            clear()
+            slow_print("Seems like the room is empty except for the computer.")
+            start_pc_input = input("Will you turn on the computer? y/n ")
+
+            if start_pc_input == 'y':
+                self.story_sequence["access_pc_once"] = True
+                clear()
+                Story.attic_discovery()
+                return self.examine_attic()
+            elif start_pc_input == 'n':
+                clear()
+                slow_print("That's fine. It didn't want to be turned on anyways.")
+                text_buffer()
+
+        else:
+            user_action = 0
+            while user_action != 3:
+                clear()
+                slow_print("What would you like to examine?")
+                user_action = int(input("1-pc     2-super duper top secret hole in the wall     3-stop examining\n"))
+
+                if user_action == 1:
+                    clear()
+                    slow_print("Booting up the pc.")
+                    text_buffer()
+                elif user_action == 2:
+                    clear()
+                    slow_print("Entering the attic.")
+                    text_buffer()
+                    return self.examine_attic()
+                elif user_action == 3:
+                    break
+
+
+    def examine_attic(self):
+        self.story_sequence["current_room"] = "attic"
         clear()
-        slow_print("Examining attic")
-        text_buffer()
+        slow_print("There isn't much in here. Some old boxes. But there's a sticky note on the wall.")
+        slow_print("What would you like to examine?")
+        user_action = int(input("1-sticky note     2-stop examining\n"))
+
+        while user_action != 2:
+            if user_action == 1:
+                clear()
+                slow_print(f"The sticky note reads {self.story_sequence["pc_password"]}.")
+                text_buffer()
+            elif user_action == 2:
+                break
+            clear()
+            slow_print("What would you like to examine?")
+            user_action = int(input("1-sticky note     2-stop examining\n"))
+
 
     @staticmethod
     def map():
@@ -218,5 +274,5 @@ class Rooms:
         print("                 |    ")
         print("bedroom-----living room-----kitchen-----garage")
         print("                 |    ")
-        print("             upstairs-----attic")
+        print("             upstairs-----?????")
         text_buffer()

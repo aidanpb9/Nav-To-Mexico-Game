@@ -2,6 +2,8 @@ import os
 import sys
 import time
 import json
+import random
+import string
 
 
 #checks if terminal is real or pycharm
@@ -50,3 +52,8 @@ def load_game(filename = "saved_game.json") -> dict:
         return story_sequence
     except FileNotFoundError:
         return {}
+
+
+def rand_pc_password():
+    pc_password = ''.join(random.choices(string.ascii_letters + string.digits, k=5))
+    return pc_password

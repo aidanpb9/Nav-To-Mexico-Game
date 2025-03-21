@@ -1,28 +1,77 @@
 Story parts
-part1: go from bedroom to starting car (part1)
+part1: go from bedroom to starting car
 part2 navigate the roads to airport
 part3(navigate the airport)
 part4(navigate the resort to find your parents)
 
 Part1:
-find computer password
-book tickets on computer
-find car keys
 
                          entrance(front door)
 House layout:  bedroom   living room     kitchen   garage
-                         upstairs room->attic
+                         upstairs room->???attic
 
-Game works up to getting car keys.
 
-Next:
-      computer password is in attic
-      computer is in upstairs room
-      put basic items to observe in all rooms
-
+Next: add attic to map after found
+      book plane ticket
+      garage and car
       cant start car unless packed suitcase, has car keys, booked tickets
 
 Since last commit:
-    moved current_room variable into story_sequence dictionary
-    several formatting fixes
-    implemented save and load game functions
+    implemented examine upstairs and attic, readied pc for password
+    made pc password random
+
+
+NEXT:
+have random gen money between 100-200
+
+TO BOOK PLANE TICKETS:
+boots up pc
+ask for password
+if correct:
+    if not website_open
+        print "parents left website open" and array instructions
+        website_open = True
+    call pc
+if incorrect:
+    print incorrect password
+
+
+pc:
+
+call (first make) random array based on runtime
+    initialize 6 rows 4 cols
+    assign open seats to 2-8 seats
+    for the 2-8 open seats assign price
+        if EF $80-120
+        if CD $110-140
+        if AB $140-180
+
+
+call (first make) fnx to check if any seat is affordable
+    if true ignore this
+    if false print "too expensive try again later" and return
+
+make display array fnx
+A[x][x] [x][x]
+B[x][2] [3][x]
+C[1][x] [x][x]
+D[1][x] [3][4]
+E[x][x] [x][x]
+F[x][x] [x][4]
+
+ buy_ticket:
+ call display
+ ask for ticket to buy
+ if input matches open seat
+    print the price
+    input("will you buy")
+    if too expensive:
+        print "too expensive"
+    else if affordable:
+        print "you bought seat {x#} for {price}"
+        bought_ticket = True
+ else if input doesn't match open seat
+    if seat has x print "already purchased"
+    if seat not real print "doesn't exist"
+
+ ***Can let user keep buying tickets if they have enough money***

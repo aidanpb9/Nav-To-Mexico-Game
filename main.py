@@ -5,6 +5,7 @@ from Modules.utils import text_buffer
 from Modules.utils import slow_print
 
 
+
 def main():
     story_sequence = {
         "current_room": "bedroom",
@@ -12,7 +13,11 @@ def main():
         "has_bedroom_key": False,
         "unlocked_bedroom": False,
         "packed_bag": False,
-        "has_car_keys": False
+        "has_car_keys": False,
+        "access_pc_once": False,
+        "pc_password": None,
+        "website_open": False,
+        "bought_ticket": False
     }
 
     story = Story()
@@ -27,8 +32,10 @@ def main():
         else:
             slow_print("No game found. Starting new game...Press Enter")
             text_buffer()
-            story.intro()
-    elif start_game_input == 'n':
+            start_game_input = 'n'
+
+    if start_game_input == 'n':
+        story_sequence["pc_password"] = Modules.utils.rand_pc_password()
         story.intro()
 
     room = Rooms(story_sequence)
